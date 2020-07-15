@@ -43,26 +43,28 @@ public class hW_2_extra {
 
         HashMap<Character, String> tryHarder = new HashMap<>(); // Здесь храним слово, которое угадывает пользователь
         char[] parseWin = win.toLowerCase().toCharArray(); // Занижаем слово и парсим на символы
-        for (char c : parseWin) { // Добавляем символы слова в массив
+        for (char c : parseWin) { // Добавляем символы слова в HashMap
             tryHarder.put(c, "*");
         }
-
-        System.out.println("У вас есть " + counter + " попытки, чтобы угадать слово целиком!");
 
 
         for (int i = 0; i < counter; i++) { // Угадываем по кол-ву попыток
 
+            System.out.println("У вас есть " + counter + " попытки, чтобы угадать слово целиком!");
+
             System.out.println("Введите букву");
 
-            char letter = reader.readLine().toLowerCase().charAt(0); // Считываем букву. Если заглавная, занижаем)
+            char letter = reader.readLine().toLowerCase().charAt(0); // Считываем букву, занижаем
 
             if (letter == "d".charAt(0)) {
                 System.out.println("DEBUG. Ответ = " + win);
+                i--; // уменьшаем каунтер, чтобы дебаг не влиял на кол-во попыток
 
             } else {
                 for (char c : parseWin) { // Сравниваем с массивом букв слова
-                    if (c == letter) { // Если угадали, заменяем все звёздочки в слове на буквы
-                        tryHarder.replace(c, "*", String.valueOf(c));
+                    if (c == letter) { // Если угадали...
+                        tryHarder.replace(c, "*", String.valueOf(c)); //... заменяем все звёздочки в слове на буквы...
+                        i--; // и уменьшаем каунтер, иначе по логике происходящего, нам не хватит попыток угадать
                     }
 
                     if (letter == parseWin[0]) {
