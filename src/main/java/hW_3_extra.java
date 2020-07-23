@@ -12,10 +12,10 @@ public class hW_3_extra {
     // Хранит в себе Начальные точки, длину сторон и массив с остальными точками
     // Так как стороны всегда параллельны осям, а длина сторон одинаковая, остальные точки легко вычислить
 
-    int x;
-    int y;
-    int length;
-    int[] rectangle;
+    private int x;
+    private int y;
+    private int length;
+    private int[] rectangle;
 
     public hW_3_extra(int x, int y, int length) { // x , y точка, от которой на оси координат можно построить прямоугольник
 
@@ -47,7 +47,7 @@ public class hW_3_extra {
 
     public void move(String direction, int amount) {
 
-        // Сдвиг по сути пересоздание по новым координатам. Пока не очень удобно реализованы команды
+        // Сдвиг - по сути пересоздание по новым координатам. Пока не очень удобно реализованы команды
 
         switch (direction) {
             case "up":
@@ -125,6 +125,7 @@ public class hW_3_extra {
         hW_3_extra rect2 = new hW_3_extra(0, 4, 2);
 
         rect1.intersection(rect2);
+
 
     }
 
