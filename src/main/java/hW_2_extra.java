@@ -1,3 +1,5 @@
+import com.github.javafaker.Faker;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -12,12 +14,13 @@ public class hW_2_extra {
     // Также можно отобразить список всех букв, которые ввел пользователь.
     // Количество попыток зависит от длины слова и равняется ее половине (округленную в большую сторону).
 
-    public static String[] vocabularyFill(String[] voc) { // Метод наполняет словарь
+    private static void vocabularyFill(String[] voc) { // Метод наполняет словарь
+
+        Faker faker = new Faker();
 
         for (int i = 0; i < voc.length; i++) { // Наполняю словом ПРИМЕР с добавлением номера позиции в конце
-            voc[i] = "Пример" + i;
+            voc[i] = faker.lordOfTheRings().character();
         }
-        return voc;
     }
 
     public static void main(String[] args) throws IOException {
@@ -48,29 +51,34 @@ public class hW_2_extra {
         }
 
 
-        for (int i = 0; i < counter; i++) { // Угадываем по кол-ву попыток
+        for (; counter > 0; counter--) { // Угадываем по кол-ву попыток
 
-            System.out.println("У вас есть " + counter + " попытки, чтобы угадать слово целиком!");
+            System.out.println("У вас есть " + counter + " попытки, чтобы угадать слово!");
+            System.out.println("Введите букву или слово целиком!");
 
-            System.out.println("Введите букву");
+            String guess = reader.readLine(); //Введённый вариант ответа. Буква или слово целиком
 
-            char letter = reader.readLine().toLowerCase().charAt(0); // Считываем букву, занижаем
+            if (guess.length() > 1) { // Если длина слова больше 1, значит пользователь пытается угадать слово целиком
 
-            if (letter == "d".charAt(0)) {
-                System.out.println("DEBUG. Ответ = " + win);
-                i--; // уменьшаем каунтер, чтобы дебаг не влиял на кол-во попыток
+                if (guess.equals("debug")) { // Для тестирования
+                    System.out.println("DEBUG. Ответ = " + win);
+                    counter++; // уменьшаем каунтер, чтобы дебаг не влиял на кол-во попыток
+                } else if (guess.toLowerCase().equals(win.toLowerCase())) {
+                    System.out.println("Вы угадали! Загаданное слово - " + win);
+                    break;
+                } else {
+                    System.out.println("Неверное слово!");
+                }
 
-            } else {
+            } else { // Если длина слова = 1...
+                char letter = guess.toLowerCase().charAt(0); // Считываем букву, занижаем
                 for (char c : parseWin) { // Сравниваем с массивом букв слова
                     if (c == letter) { // Если угадали...
                         tryHarder.replace(c, "*", String.valueOf(c)); //... заменяем все звёздочки в слове на буквы...
-                        i--; // и уменьшаем каунтер, иначе по логике происходящего, нам не хватит попыток угадать
                     }
-
-                    if (letter == parseWin[0]) {
+                    if (letter == parseWin[0]) { // Делаем первую букву заглавной
                         tryHarder.replace(letter, String.valueOf(letter).toUpperCase());
                     }
-
                 }
 
                 System.out.println("Загаданное слово:");
@@ -80,11 +88,10 @@ public class hW_2_extra {
                     System.out.print(tryHarder.get(c));
 
                 }
-
                 System.out.println();
+                System.out.println();
+
             }
-
-
         }
     }
 }
